@@ -17,7 +17,43 @@
                 (selectionChange)="onAreaChange($event)"
               />
             }
+            @if (cadastroForm.get('areaAtuacao')?.touched && cadastroForm.get('areaAtuacao')?.invalid) {
+              <div class="cadastro-form__error">
+                Por favor, selecione uma área de atuação.
+              </div>
+            }
           </div>
+        </div>
+        <div class="cadastro-form__section">
+          <h3 class="cadastro-form__section-title">Nível de experiência</h3>
+          <app-experience-level
+            [levels]="niveisExperiencia"
+            [selectedLevel]="cadastroForm.get('niveisExperiencia')?.value"
+            (levelChange)="onNivelChange($event)">
+          </app-experience-level>
+          @if (cadastroForm.get('niveisExperiencia')?.touched && cadastroForm.get('niveisExperiencia')?.invalid) {
+            <div class="cadastro-form__error">
+              Por favor, selecione um nível de experiência.
+            </div>
+          }
+        </div>
+
+        <div class="cadastro-form__actions">
+          <app-button
+            text="Anterior"
+            type="outline"
+            icon="fas fa-arrow-left"
+            iconPosition="left"
+            (clicked)="onAnterior()">
+          </app-button>
+          <app-button
+            text="Próximo"
+            type="primary"
+            icon="fas fa-arrow-right"
+            iconPosition="right"
+            [disabled]="cadastroForm.invalid"
+            (clicked)="onProximo()">
+          </app-button>
         </div>
       </form>
     </div>
