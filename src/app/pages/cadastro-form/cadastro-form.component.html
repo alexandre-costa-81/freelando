@@ -3,7 +3,23 @@
     <div class="cadastro-form__card">
       <h2 class="cadastro-form__title">Crie seu cadastro</h2>
 
-
+      <form [formGroup]="cadastroForm" (ngSubmit)="onProximo()">
+        <div class="cadastro-form__section">
+          <h3 class="cadastro-form__section-title">Qual a área de atuação?</h3>
+          <div class="cadastro-form__radio-group">
+            @for (area of areasAtuacao; track area.id) {
+              <app-radio-option
+                [id]="area.id"
+                [name]="'areaAtuacao'"
+                [label]="area.label"
+                [value]="area.value"
+                [checked]="cadastroForm.get('areaAtuacao')?.value === area.value"
+                (selectionChange)="onAreaChange($event)"
+              />
+            }
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>
