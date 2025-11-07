@@ -10,6 +10,124 @@
 
       <form [formGroup]="dadosPessoaisForm" (ngSubmit)="onProximo()">
 
+        <div class="cadastro-form__field">
+          <label for="nomeCompleto" class="cadastro-form__label">Nome Completo</label>
+          <input
+            id="nomeCompleto"
+            type="text"
+            formControlName="nomeCompleto"
+            class="cadastro-form__input"
+          />
+          @if (dadosPessoaisForm.get('nomeCompleto')?.invalid && dadosPessoaisForm.get('nomeCompleto')?.touched) {
+            <div class="cadastro-form__error">
+              O nome completo é obrigatório.
+            </div>
+          }
+        </div>
+
+        <div class="cadastro-form__row">
+          <div class="cadastro-form__field cadastro-form__field-half">
+            <label for="estado" class="cadastro-form__label">Estado</label>
+            <select
+              name="estado"
+              id="estado"
+              class="cadastro-form__input"
+              formControlName="estado"
+            >
+              <option value="" disabled selected>Selecione um estado</option>
+              @for (estado of estados; track estado.sigla) {
+                <option [value]="estado.sigla">{{ estado.nome }}</option>
+              }
+            </select>
+            @if (dadosPessoaisForm.get('estado')?.invalid && dadosPessoaisForm.get('estado')?.touched) {
+              <div class="cadastro-form__error">
+                O estado é obrigatório.
+              </div>
+            }
+          </div>
+          <div class="cadastro-form__field cadastro-form__field-half">
+            <label for="cidade" class="cadastro-form__label">Cidade</label>
+            <input
+              id="cidade"
+              type="text"
+              formControlName="cidade"
+              class="cadastro-form__input"
+            />
+            @if (dadosPessoaisForm.get('cidade')?.invalid && dadosPessoaisForm.get('cidade')?.touched) {
+              <div class="cadastro-form__error">
+                A cidade é obrigatória.
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="cadastro-form__field">
+          <label for="email" class="cadastro-form__label">E-mail</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            class="cadastro-form__input"
+          />
+          @if (dadosPessoaisForm.get('email')?.invalid && dadosPessoaisForm.get('email')?.touched) {
+            @if (dadosPessoaisForm.get('email')?.errors?.['required']) {
+              <div class="cadastro-form__error">
+                O e-mail é obrigatório.
+              </div>
+            }
+            @if (dadosPessoaisForm.get('email')?.errors?.['email']) {
+              <div class="cadastro-form__error">
+                Insira um e-mail válido.
+              </div>
+            }
+          }
+        </div>
+
+        <div class="cadastro-form__row">
+          <div class="cadastro-form__field cadastro-form__field-half">
+            <label for="senha" class="cadastro-form__label">Senha</label>
+            <input
+              id="senha"
+              type="password"
+              formControlName="senha"
+              class="cadastro-form__input"
+            />
+            @if (dadosPessoaisForm.get('senha')?.invalid && dadosPessoaisForm.get('senha')?.touched) {
+              <div class="cadastro-form__error">
+              @if (dadosPessoaisForm.get('senha')?.errors?.['required']) {
+                <span>
+                  A senha é obrigatória.
+                </span>
+              }
+              @if (dadosPessoaisForm.get('senha')?.errors?.['minlength']) {
+                <span>
+                  A senha deve ter no mínimo 6 caracteres.
+                </span>
+              }
+              </div>
+            }
+          </div>
+          <div class="cadastro-form__field cadastro-form__field-half">
+            <label for="confirmaSenha" class="cadastro-form__label">Confirmar Senha</label>
+            <input
+              id="confirmaSenha"
+              type="password"
+              formControlName="confirmaSenha"
+              class="cadastro-form__input"
+            />
+            @if (dadosPessoaisForm.get('confirmaSenha')?.invalid && dadosPessoaisForm.get('confirmaSenha')?.touched) {
+              <div class="cadastro-form__error">
+                @if (dadosPessoaisForm.get('confirmaSenha')?.errors?.['required']) {
+                  <span>A confirmação de senha é obrigatória.</span>
+                }
+                @if (dadosPessoaisForm.get('confirmaSenha')?.errors?.['mismatch']) {
+                  <span>As senhas não coincidem.</span>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
         <div class="cadastro-form__actions">
           <app-button
             text="Anterior"
