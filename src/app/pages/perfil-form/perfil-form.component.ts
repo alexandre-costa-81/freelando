@@ -1,11 +1,13 @@
 
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { Habilidade } from '../../shared/models/habilidade.interface';
 import { ChipComponent } from '../../shared/components/chip/chip.component';
+import { CadastroService } from '../../shared/services/cadastro.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -19,7 +21,7 @@ import { ChipComponent } from '../../shared/components/chip/chip.component';
   templateUrl: './perfil-form.component.html',
   styleUrls: ['./perfil-form.component.scss']
 })
-export class PerfilFormComponent {
+export class PerfilFormComponent implements OnInit{
   perfilForm!: FormGroup;
   fotoPreview: string | ArrayBuffer | undefined;
 
@@ -44,7 +46,50 @@ export class PerfilFormComponent {
     'Espanhol'
   ];
 
-  onAnterior(): void {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private cadastroService: CadastroService
+  ) {}
 
-  onProximo(): void {}
+  ngOnInit(): void {
+    this.inicializarFormulario();
+  }
+
+  onAnterior(): void {
+    this.salvarDadosAtuais();
+    this.router.navigate(['/cadastro/dados-pessoais']);
+  }
+
+  onProximo(): void {
+    if (this.perfilForm.valid) {
+      this.salvarDadosAtuais();
+      this.router.navigate(['/cadastro/confirmacao']);
+    } else {
+      this.perfilForm.markAllAsTouched();
+    }
+  }
+
+  private inicializarFormulario(): void {
+    this.perfilForm = this.fb.group({
+      foto: [''],
+      resumo: [''],
+      habilidadesSelecionadas: [[]],
+      idiomas: this.fb.array([]),
+      portfolio: [''],
+      linkedin: ['']
+    });
+  }
+
+  private salvarDadosAtuais(): void {
+    const formvalue = this.perfilForm.value;
+    this.cadastroService.updateCadastroData({
+      foto: formvalue.fotoPreview,
+      resumo: formvalue.resumo,
+      habilidadesSelecionadas: formvalue.habilidadesSelecionadas,
+      idiomas: [],
+      portfolio: formvalue.portfolio,
+      linkedin: formvalue.linkedin
+    });
+  }
 }
