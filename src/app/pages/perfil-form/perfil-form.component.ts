@@ -23,7 +23,7 @@ import { Router } from '@angular/router';
 })
 export class PerfilFormComponent implements OnInit{
   perfilForm!: FormGroup;
-  fotoPreview: string | ArrayBuffer | undefined;
+  fotoPreview!: string | ArrayBuffer | null;
 
   habilidades: Habilidade[] = [
     { nome: 'Fullstack', selecionada: false },
@@ -67,6 +67,18 @@ export class PerfilFormComponent implements OnInit{
       this.router.navigate(['/cadastro/confirmacao']);
     } else {
       this.perfilForm.markAllAsTouched();
+    }
+  }
+
+  onFotoSelecionada(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.fotoPreview = reader.result;
+        this.perfilForm.patchValue({ foto: file, fotoPreview: this.fotoPreview });
+      };
+      reader.readAsDataURL(file);
     }
   }
 
