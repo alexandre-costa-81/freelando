@@ -16,8 +16,9 @@ import { Router } from '@angular/router';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    ButtonComponent
-  ],
+    ButtonComponent,
+    ChipComponent
+],
   templateUrl: './perfil-form.component.html',
   styleUrls: ['./perfil-form.component.scss']
 })
@@ -80,6 +81,13 @@ export class PerfilFormComponent implements OnInit{
       };
       reader.readAsDataURL(file);
     }
+  }
+
+  toggleHabilidade(habilidade: Habilidade): void {
+    habilidade.selecionada = !habilidade.selecionada;
+
+    const habilidadesSelecionadas = this.habilidades.filter(h => h.selecionada).map(h => h.nome);
+    this.perfilForm.patchValue({ habilidadesSelecionadas });
   }
 
   private inicializarFormulario(): void {

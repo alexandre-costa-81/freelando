@@ -35,6 +35,21 @@
           </div>
         </div>
 
+        <div class="cadastro-form__field">
+          <label class="cadastro-form__label">Cite até 3 habilidades que você considera principais</label>
+          <div class="cadastro-form__chips">
+            @for (habilidade of habilidades; track habilidade.nome) {
+              <app-chip
+                [text]="habilidade.nome"
+                [selected]="habilidade.selecionada"
+                [disabled]="!habilidade.selecionada && perfilForm.get('habilidadesSelecionadas')?.value.length >= 3"
+                (clicked)="toggleHabilidade(habilidade)"
+              >
+              </app-chip>
+            }
+          </div>
+        </div>
+
         <div class="cadastro-form__actions">
           <app-button
             text="Anterior"
