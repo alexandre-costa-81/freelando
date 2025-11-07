@@ -120,9 +120,11 @@
                 @if (dadosPessoaisForm.get('confirmaSenha')?.errors?.['required']) {
                   <span>A confirmação de senha é obrigatória.</span>
                 }
-                @if (dadosPessoaisForm.get('confirmaSenha')?.errors?.['mismatch']) {
-                  <span>As senhas não coincidem.</span>
-                }
+              </div>
+            }
+            @if (dadosPessoaisForm.errors?.['senhasDiferentes'] && (dadosPessoaisForm.get('confirmaSenha')?.touched || dadosPessoaisForm.get('senha')?.touched)) {
+              <div class="cadastro-form__error">
+                As senhas não coincidem.
               </div>
             }
           </div>
