@@ -25,6 +25,28 @@
           }
         </div>
 
+        <div class="cadastro-form__field">
+          <label for="cpf" class="cadastro-form__label">CPF</label>
+          <input
+            id="cpf"
+            type="text"
+            formControlName="cpf"
+            class="cadastro-form__input"
+            placeholder="000.000.000-00"
+            maxlength="11"
+          />
+          @if (dadosPessoaisForm.get('cpf')?.invalid && dadosPessoaisForm.get('cpf')?.touched && dadosPessoaisForm.get('cpf')?.errors?.['required']) {
+            <div class="cadastro-form__error">
+              O CPF é obrigatório.
+            </div>
+          }
+          @if (dadosPessoaisForm.get('cpf')?.invalid && dadosPessoaisForm.get('cpf')?.touched && dadosPessoaisForm.get('cpf')?.errors?.['cpfInvalido']) {
+            <div class="cadastro-form__error">
+              O CPF informado é inválido.
+            </div>
+          }
+        </div>
+
         <div class="cadastro-form__row">
           <div class="cadastro-form__field cadastro-form__field--half">
             <label for="estado" class="cadastro-form__label">Estado</label>
